@@ -57,7 +57,7 @@ func Create(e echo.Context) error {
 func Delete(e echo.Context) error {
 	var id = e.Param("id")
 
-	//find controllers
+	//find content
 	if _, ok := Contents[id]; !ok {
 		return e.JSON(http.StatusBadRequest, Resp{
 			Message: "controllers not found",
@@ -98,7 +98,7 @@ func ReadAll(e echo.Context) error {
 func ReadById(e echo.Context) error {
 	var id = e.Param("id")
 
-	if _, ok := Contents[id]; !ok { // if controllers not found
+	if _, ok := Contents[id]; !ok { // if content not found
 		return e.JSON(http.StatusNotFound, Resp{
 			Message: "data not found",
 			Data:    nil,
@@ -134,7 +134,7 @@ func Update(e echo.Context) error {
 		})
 	}
 
-	//find controllers
+	//find content
 	if _, ok := Contents[id]; !ok {
 		return e.JSON(http.StatusBadRequest, Resp{
 			Message: "controllers not found",

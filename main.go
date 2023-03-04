@@ -14,11 +14,11 @@ func main() {
 		})
 	})
 
-	e.GET("/controllers", controllers.ReadAll)
-	e.GET("/controllers/:id", controllers.ReadById)
-	e.POST("/controllers", controllers.Create)
-	e.PUT("/controllers/:id", controllers.Update)
-	e.DELETE("/controllers/:id", controllers.Delete)
+	e.GET("/contents", controllers.ReadAll)
+	e.GET("/contents/:id", controllers.ReadById)
+	e.POST("/contents", controllers.Create)
+	e.PUT("/contents/:id", controllers.Update)
+	e.DELETE("/contents/:id", controllers.Delete)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
