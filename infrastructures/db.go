@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-redis/redis/v8"
-	"github.com/mochafiqri/simple-crud/controllers"
+	"github.com/mochafiqri/simple-crud/commons/entities"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -22,7 +22,7 @@ const (
 func InitMysql() (*gorm.DB, error) {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", user, password, host, port, dbName)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	db.AutoMigrate(controllers.Content{})
+	db.AutoMigrate(entities.Content{})
 	return db, err
 }
 
@@ -30,7 +30,7 @@ func InitPostgres() (*gorm.DB, error) {
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Jakarta",
 		host, user, password, dbName, port)
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
-	db.AutoMigrate(controllers.Content{})
+	db.AutoMigrate(entities.Content{})
 	return db, err
 }
 

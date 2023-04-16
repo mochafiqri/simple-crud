@@ -1,10 +1,11 @@
 package main
 
 import (
-	"context"
 	"github.com/labstack/echo/v4"
 	"github.com/mochafiqri/simple-crud/controllers"
 	"github.com/mochafiqri/simple-crud/infrastructures"
+	"github.com/mochafiqri/simple-crud/repository"
+	"github.com/mochafiqri/simple-crud/usecases"
 	"net/http"
 )
 
@@ -26,23 +27,10 @@ func main() {
 		panic(err)
 	}
 
-	var h = controllers.Handler{
-		Db:  db,
-		Rds: rds,
-	}
-
-	e.GET("/contents", h.ReadAll)
-	e.GET("/contents/redis/flush", func(c echo.Context) error {
-		err = rds.FlushAll(context.Background()).Err()
-		if err != nil {
-			return c.JSON(http.StatusInternalServerError, err.Error())
-		}
-		return c.JSON(http.StatusOK, http.StatusText(http.StatusOK))
-	})
-	e.GET("/contents/:id", h.ReadById)
-	e.POST("/contents", h.Create)
-	e.PUT("/contents/:id", h.Update)
-	e.DELETE("/contents/:id", h.Delete)
+	var repoContent = repository.NewContentRepo(db, rds)
+	var ucContent = usecases.NewContentUseCase(repoContent)
+	var contentApi = controllers.NewHandler(ucContent)
+	contentApi.Routes(e)
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
